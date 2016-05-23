@@ -9,6 +9,7 @@ jdk:
   - openjdk7
 env:
   - PROJECT_DIR=example
+  - PROJECT_DIR=week1
 script:
   - cd $PROJECT_DIR && sbt clean test
 after_success:

@@ -1,8 +1,7 @@
 package example
 
-import org.scalatest.FunSuite
-
 import org.junit.runner.RunWith
+import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
 
 /**
@@ -121,6 +120,10 @@ import org.scalatest.junit.JUnitRunner
     assert(max(List(3, 7, 2)) === 7)
   }
 
-
+  test("no max in empty list") {
+    intercept[NoSuchElementException] {
+      max(List())
+    }
+  }
 
 }

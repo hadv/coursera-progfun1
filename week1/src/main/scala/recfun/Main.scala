@@ -21,7 +21,24 @@ object Main {
   /**
    * Exercise 2
    */
-    def balance(chars: List[Char]): Boolean = ???
+    def balance(chars: List[Char]): Boolean = {
+
+      def loop(level: Int, char: Char, chars: List[Char]): Boolean = {
+
+        val newLevel =
+          char match {
+            case '(' => level + 1
+            case ')' => level - 1
+            case default => level
+          }
+
+        if (newLevel < 0) false
+        else if (chars.isEmpty) newLevel == 0
+        else loop(newLevel, chars.head, chars.tail)
+      }
+
+      loop(0, chars.head, chars.tail)
+  }
   
   /**
    * Exercise 3

@@ -10,6 +10,7 @@ jdk:
 env:
   - PROJECT_DIR=example
   - PROJECT_DIR=week1
+  - PROJECT_DIR=week2
 script:
   - cd $PROJECT_DIR && sbt clean test
 after_success:

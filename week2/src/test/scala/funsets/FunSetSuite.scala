@@ -19,6 +19,11 @@ class FunSetSuite extends FunSuite {
     val s3 = singletonSet(3)
 
     val integers: Set = { x => true }
+    val positive: Set = { x => x > 0 }
+    val negative: Set = { x => x < 0 }
+
+    val even: Set = { x => x % 2 == 0 }
+    val odd: Set = { x => x % 2 != 0 }
   }
 
   test("singletonSet(1) contains 1") {
@@ -83,6 +88,75 @@ class FunSetSuite extends FunSuite {
       assert(!contains(s, 1), "Filter 1")
       assert(contains(s, 2), "Filter 2")
       assert(!contains(s, 3), "Filter 3")
+    }
+  }
+
+  test("all numbers in singletonSet(1) are equal to 1") {
+    new TestSets {
+      assert(forall(s1, x => x == 1))
+    }
+  }
+
+  test("all integer numbers are equal to themselves") {
+    new TestSets {
+      assert(forall(s1, x => x == x))
+    }
+  }
+
+  test("negation of every positive number is negative") {
+    new TestSets {
+      assert(forall(positive, x => contains(negative, -x)))
+    }
+  }
+
+  test("not all integers are even") {
+    new TestSets {
+      assert(!forall(integers, x => contains(even, x)))
+    }
+  }
+
+  test("all odd numbers, when incremented by 1, are even") {
+    new TestSets {
+      assert(forall(odd, x => contains(even, x + 1)))
+    }
+  }
+
+  test("exists a positive number equal to 1") {
+    new TestSets {
+      assert(exists(positive, x => x == 1))
+    }
+  }
+
+  test("exists a positive number which is even") {
+    new TestSets {
+      assert(exists(positive, x => contains(even, x)))
+    }
+  }
+
+  test("does not exist any positive number which is negative") {
+    new TestSets {
+      assert(!exists(positive, x => contains(negative, x)))
+    }
+  }
+
+  test("singletonSet(1) map add 1") {
+    new TestSets {
+      val s = map(s1, x => x + 1)
+      assert(!contains(s2, 1), "Singleton + 1")
+      assert(contains(s2, 2), "Singleton + 1")
+      assert(!contains(s2, 3), "Singleton + 1")
+    }
+  }
+
+  test("all even numbers, when incremented by 1, are odd") {
+    new TestSets {
+      assert(forall(map(even, x => x + 1), x => contains(odd, x)))
+    }
+  }
+
+  test("all integer numbers, when multiplied by 2, are even") {
+    new TestSets {
+      assert(forall(map(integers, x => x * 2), x => contains(even, x)))
     }
   }
 }

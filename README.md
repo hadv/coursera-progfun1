@@ -15,3 +15,8 @@ This project contains source code written for peer-reviewed assignments in [Func
 ## Assignment: Functional Sets
 
 [Week 2 assignment](https://github.com/sczerwinski/coursera-progfun1/wiki/Week-2)
+
+## Assignment: Object-Oriented Sets
+
+[Week 3 assignment](https://github.com/sczerwinski/coursera-progfun1/wiki/Week-3)
+

@@ -118,7 +118,7 @@ class Empty extends TweetSet {
 
   def union(that: TweetSet): TweetSet = that
 
-  def mostRetweeted: Tweet = throw new java.util.NoSuchElementException("mostRecent of Empty")
+  def mostRetweeted: Tweet = throw new java.util.NoSuchElementException("mostRetweeted of Empty")
 
   def mostRetweetedAcc(tweet: Tweet) = tweet
 

@@ -1,7 +1,5 @@
 package patmat
 
-import common._
-
 /**
  * Assignment 4: Huffman coding
  *
@@ -160,7 +158,22 @@ object Huffman {
    * This function decodes the bit sequence `bits` using the code tree `tree` and returns
    * the resulting list of characters.
    */
-  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = ???
+  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+    def decodeChar(subtree: CodeTree, bits: List[Bit]): (List[Bit], Char) = {
+      subtree match {
+        case Leaf(char, _) => (bits, char)
+        case Fork(left, right, _, _) => decodeChar(if (bits.head == 0) left else right, bits.tail)
+      }
+    }
+    def decodeAcc(bits: List[Bit], chars: List[Char]): List[Char] = {
+      if (bits.isEmpty) chars
+      else {
+        val pair = decodeChar(tree, bits)
+        decodeAcc(pair._1, chars :+ pair._2)
+      }
+    }
+    decodeAcc(bits, List())
+  }
 
   /**
    * A Huffman coding tree for the French language.
@@ -178,7 +191,7 @@ object Huffman {
   /**
    * Write a function that returns the decoded secret
    */
-  def decodedSecret: List[Char] = ???
+  def decodedSecret: List[Char] = decode(frenchCode, secret)
 
 
   // Part 4a: Encoding using Huffman tree
@@ -187,7 +200,24 @@ object Huffman {
    * This function encodes `text` using the code tree `tree`
    * into a sequence of bits.
    */
-  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = ???
+  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {
+    def encodeChar(subtree: CodeTree, char: Char, bits: List[Bit]): List[Bit] = {
+      subtree match {
+        case Fork(left, right, _, _) => left match {
+          case Fork(_, _, chars, _) => {
+            if (chars.contains(char)) encodeChar(left, char, bits :+ 0)
+            else encodeChar(right, char, bits :+ 1)
+          }
+          case Leaf(c, _) => {
+            if (c == char) encodeChar(left, char, bits :+ 0)
+            else encodeChar(right, char, bits :+ 1)
+          }
+        }
+        case _ => bits
+      }
+    }
+    text map (char => encodeChar(tree, char, List())) flatMap identity
+  }
 
   // Part 4b: Encoding using code table
 

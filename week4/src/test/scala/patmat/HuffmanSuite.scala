@@ -9,11 +9,17 @@ import patmat.Huffman._
 
 @RunWith(classOf[JUnitRunner])
 class HuffmanSuite extends FunSuite {
-	trait TestTrees {
-		val t1 = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
-		val t2 = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('d',4), List('a','b','d'), 9)
-	}
 
+  trait TestTrees {
+    val t1 = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
+    val t2 = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('d',4), List('a','b','d'), 9)
+  }
+
+  trait MakeCodeTree {
+    val sampleTree = makeCodeTree(
+      makeCodeTree(Leaf('x', 1), Leaf('e', 1)), Leaf('t', 2)
+    )
+  }
 
   test("weight of a larger tree") {
     new TestTrees {
@@ -28,6 +34,17 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("weight of makeCodeTree") {
+    new MakeCodeTree {
+      assert(weight(sampleTree) === 4)
+    }
+  }
+
+  test("chars of makeCodeTree") {
+    new MakeCodeTree {
+      assert(chars(sampleTree) === List('x', 'e', 't'))
+    }
+  }
 
   test("string2chars(\"hello, world\")") {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))

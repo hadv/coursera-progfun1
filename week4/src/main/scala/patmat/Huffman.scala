@@ -75,7 +75,19 @@ object Huffman {
    *       println("integer is  : "+ theInt)
    *   }
    */
-  def times(chars: List[Char]): List[(Char, Int)] = ???
+  def times(chars: List[Char]): List[(Char, Int)] = {
+    def timesAcc(chars: List[Char], acc: List[(Char, Int)]): List[(Char, Int)] =
+      if (chars.isEmpty) acc
+      else {
+        val char: Char = chars.head
+        acc.head match {
+          case (`char`, n) => timesAcc(chars.tail, (char, n + 1) :: acc.tail)
+          case _ => timesAcc(chars.tail, (char, 1) :: acc)
+        }
+      }
+    val sortedChars: List[Char] = chars.sorted
+    timesAcc(sortedChars.tail, List((sortedChars.head, 1)))
+  }
 
   /**
    * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
@@ -84,7 +96,8 @@ object Huffman {
    * head of the list should have the smallest weight), where the weight
    * of a leaf is the frequency of the character.
    */
-  def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = ???
+  def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] =
+    freqs sortBy (pair => pair._2) map (pair => Leaf(pair._1, pair._2))
 
   /**
    * Checks whether the list `trees` contains only one single code tree.
@@ -153,7 +166,7 @@ object Huffman {
   /**
    * What does the secret message say? Can you decode it?
    * For the decoding use the `frenchCode' Huffman tree defined above.
-   */
+    **/
   val secret: List[Bit] = List(0,0,1,1,1,0,1,0,1,1,1,0,0,1,1,0,1,0,0,1,1,0,1,0,1,1,0,0,1,1,1,1,1,0,1,0,1,1,0,0,0,0,1,0,1,1,1,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,1)
 
   /**

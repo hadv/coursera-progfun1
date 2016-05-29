@@ -1,10 +1,8 @@
 package patmat
 
-import org.scalatest.FunSuite
-
 import org.junit.runner.RunWith
+import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
-
 import patmat.Huffman._
 
 @RunWith(classOf[JUnitRunner])
@@ -51,6 +49,14 @@ class HuffmanSuite extends FunSuite {
   }
 
 
+  test("times for singleton") {
+    assert(times(List('x')) === List(('x',1)))
+  }
+
+  test("times for nil") {
+    assert(times(Nil) === Nil)
+  }
+
   test("makeOrderedLeafList for some frequency table") {
     assert(makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))) === List(Leaf('e',1), Leaf('t',2), Leaf('x',3)))
   }
@@ -63,6 +69,16 @@ class HuffmanSuite extends FunSuite {
   test("combine of some leaf list") {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
     assert(combine(leaflist) === List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
+  }
+
+  test("combine of singleton") {
+    val leaflist = List(Leaf('e', 1))
+    assert(combine(leaflist) === List(Leaf('e',1)))
+  }
+
+  test("combine of nil") {
+    val leaflist = Nil
+    assert(combine(leaflist) === Nil)
   }
 
   test("until of some leaf list") {

@@ -83,8 +83,11 @@ object Huffman {
           case _ => timesAcc(chars.tail, (char, 1) :: acc)
         }
       }
-    val sortedChars: List[Char] = chars.sorted
-    timesAcc(sortedChars.tail, List((sortedChars.head, 1)))
+    if (chars.isEmpty) Nil
+    else {
+      val sortedChars: List[Char] = chars.sorted
+      timesAcc(sortedChars.tail, List((sortedChars.head, 1)))
+    }
   }
 
   /**
@@ -115,7 +118,11 @@ object Huffman {
    * unchanged.
    */
   def combine(trees: List[CodeTree]): List[CodeTree] =
-    makeCodeTree(trees.head, trees.tail.head) :: trees.tail.tail
+    trees match {
+      case Nil => Nil
+      case List(Leaf(_, _)) => trees
+      case _ => makeCodeTree(trees.head, trees.tail.head) :: trees.tail.tail
+    }
 
   /**
    * This function will be called in the following way:
@@ -172,7 +179,7 @@ object Huffman {
         decodeAcc(pair._1, chars :+ pair._2)
       }
     }
-    decodeAcc(bits, List())
+    decodeAcc(bits, Nil)
   }
 
   /**
@@ -216,7 +223,7 @@ object Huffman {
         case _ => bits
       }
     }
-    text map (char => encodeChar(tree, char, List())) flatMap identity
+    text map (char => encodeChar(tree, char, Nil)) flatMap identity
   }
 
   // Part 4b: Encoding using code table
@@ -246,7 +253,7 @@ object Huffman {
         case Leaf(char, _) => acc :+ (char, bits)
       }
     }
-    convertAcc(tree, List(), List())
+    convertAcc(tree, Nil, Nil)
   }
 
   /**

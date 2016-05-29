@@ -16,9 +16,7 @@ object Huffman {
    * present in the leaves below it. The weight of a `Fork` node is the sum of the weights of these
    * leaves.
    */
-  abstract class CodeTree {
-    val weight: Int
-  }
+  abstract class CodeTree
   case class Fork(left: CodeTree, right: CodeTree, chars: List[Char], weight: Int) extends CodeTree
   case class Leaf(char: Char, weight: Int) extends CodeTree
 
@@ -123,7 +121,7 @@ object Huffman {
     trees match {
       case Nil => Nil
       case List(Leaf(_, _)) => trees
-      case _ => (trees.tail.tail :+ makeCodeTree(trees.head, trees.tail.head)) sortBy (codeTree => codeTree.weight)
+      case _ => (trees.tail.tail :+ makeCodeTree(trees.head, trees.tail.head)) sortBy (codeTree => weight(codeTree))
     }
 
   /**
@@ -212,15 +210,9 @@ object Huffman {
   def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {
     def encodeChar(subtree: CodeTree, char: Char, bits: List[Bit]): List[Bit] = {
       subtree match {
-        case Fork(left, right, _, _) => left match {
-          case Fork(_, _, chars, _) => {
-            if (chars.contains(char)) encodeChar(left, char, bits :+ 0)
-            else encodeChar(right, char, bits :+ 1)
-          }
-          case Leaf(c, _) => {
-            if (c == char) encodeChar(left, char, bits :+ 0)
-            else encodeChar(right, char, bits :+ 1)
-          }
+        case Fork(left, right, _, _) => {
+          if (chars(left) contains char) encodeChar(left, char, bits :+ 0)
+          else encodeChar(right, char, bits :+ 1)
         }
         case _ => bits
       }

@@ -12,6 +12,7 @@ env:
   - PROJECT_DIR=week1
   - PROJECT_DIR=week2
   - PROJECT_DIR=week3
+  - PROJECT_DIR=week4
 script:
   - cd $PROJECT_DIR && sbt clean test
 after_success:

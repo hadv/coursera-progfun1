@@ -20,3 +20,7 @@ This project contains source code written for peer-reviewed assignments in [Func
 
 [Week 3 assignment](https://github.com/sczerwinski/coursera-progfun1/wiki/Week-3)
 
+## Assignment: Huffman Coding
+
+[Week 4 assignment](https://github.com/sczerwinski/coursera-progfun1/wiki/Week-4)
+

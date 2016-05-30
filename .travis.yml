@@ -1,11 +1,14 @@
 language: scala
+os:
+  - linux
+  - osx
 scala:
-#  - 2.9.3
-#  - 2.10.6
+  - 2.9.3
+  - 2.10.6
   - 2.11.8
 jdk:
-#  - oraclejdk8
-#  - oraclejdk7
+  - oraclejdk8
+  - oraclejdk7
   - openjdk7
 env:
   - PROJECT_DIR=example

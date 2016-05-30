@@ -38,7 +38,9 @@ object Anagrams {
     (w.toLowerCase groupBy identity).toList.sorted map { case (char, str) => (char, str.length) }
 
   /** Converts a sentence into its character occurrence list. */
-  def sentenceOccurrences(s: Sentence): Occurrences = wordOccurrences(s reduce (_ ++ _))
+  def sentenceOccurrences(s: Sentence): Occurrences =
+    if (s.isEmpty) List()
+    else wordOccurrences(s reduce (_ ++ _))
 
   /** The `dictionaryByOccurrences` is a `Map` from different occurrences to a sequence of all
    *  the words that have that occurrence count.
@@ -64,7 +66,7 @@ object Anagrams {
   }
 
   /** Returns all the anagrams of a given word. */
-  def wordAnagrams(word: Word): List[Word] = dictionaryByOccurrences(wordOccurrences(word))
+  def wordAnagrams(word: Word): List[Word] = (dictionaryByOccurrences withDefaultValue List())(wordOccurrences(word))
 
   /** Returns the list of all subsets of the occurrence list.
    *  This includes the occurrence itself, i.e. `List(('k', 1), ('o', 1))`

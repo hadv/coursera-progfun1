@@ -24,3 +24,7 @@ This project contains source code written for peer-reviewed assignments in [Func
 
 [Week 4 assignment](https://github.com/sczerwinski/coursera-progfun1/wiki/Week-4)
 
+## Assignment: Anagrams
+
+[Week 6 assignment](https://github.com/sczerwinski/coursera-progfun1/wiki/Week-6)
+
